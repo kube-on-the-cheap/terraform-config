@@ -1,5 +1,5 @@
 project:
   name: oracle-cloud-free-kubernetes
   tz: Europe/Rome
-  adrFolder: ./docs/adr
+  adrFolder: ./docs/adrs
   packages: []
