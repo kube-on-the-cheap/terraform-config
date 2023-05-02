@@ -1,0 +1,53 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  TG_REFRESH: "{{ .TG_REFRESH | default false }}"
+  TG_YOLO: "{{ .TG_YOLO | default false }}"
+
+tasks:
+  # Detect if it does require init
+
+  prerequisites:
+    desc: "Run Terragrunt over the prerequisites"
+    dir: configs/bootstrap/prerequisites
+    env:
+      TF_VAR_do_token:
+        sh: yq -r '.access-token' "${HOME}/Library/Application Support/doctl/config.yaml"
+    cmds:
+      - terragrunt {{ .CLI_ARGS -}}
+        {{ if eq .TG_REFRESH "true" }} --terragrunt-source-update -upgrade {{- end }}
+        {{ if eq .TG_YOLO "true" }} --terragrunt-non-interactive -auto-approve {{- end }}
+
+  core-infra:
+    desc: "Provision the core infra"
+    dir: configs/k3s/core-infra
+    cmds:
+      - terragrunt {{ .CLI_ARGS -}}
+        {{ if eq .TG_REFRESH "true" }} --terragrunt-source-update -upgrade {{- end }}
+        {{ if eq .TG_YOLO "true" }} --terragrunt-non-interactive -auto-approve {{- end }}
+
+  k3s:
+    desc: "Provision the core infra"
+    dir: configs/k3s/k3s
+    env:
+      TF_VAR_do_token:
+        sh: yq -r '.access-token' "${HOME}/Library/Application Support/doctl/config.yaml"
+    cmds:
+      - terragrunt {{ .CLI_ARGS -}}
+        {{ if eq .TG_REFRESH "true" }} --terragrunt-source-update -upgrade {{- end }}
+        {{ if eq .TG_YOLO "true" }} --terragrunt-non-interactive -auto-approve {{- end }}
+
+  k3s-redo:
+    desc: "Destroy and re-provision infra"
+    dir: configs/k3s/k3s
+    env:
+      TF_VAR_do_token:
+        sh: yq -r '.access-token' "${HOME}/Library/Application Support/doctl/config.yaml"
+    cmds:
+      - if [ ! -z "${TG_DESTROY_MASTERS}" ] || [ ! -z "${TG_DESTROY_ALL}" ]; then terragrunt destroy -target 'module.k3s_workers.oci_core_instance_pool.ampere_a1["platinum"]' -auto-approve; fi
+      - if [ ! -z "${TG_DESTROY_WORKERS}" ] || [ ! -z "${TG_DESTROY_ALL}" ]; then terragrunt destroy -target 'module.k3s_masters.oci_core_instance_pool.ampere_a1["copper"]' -auto-approve; fi
+      - task: k3s
+        vars:
+          TG_YOLO: true

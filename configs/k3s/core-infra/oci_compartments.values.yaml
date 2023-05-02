@@ -1,0 +1,4 @@
+
+---
+- name: k3s
+  description: An OCI Compartment to store all K3s-related resources

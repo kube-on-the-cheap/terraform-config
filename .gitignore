@@ -1,0 +1,22 @@
+# Terragrunt
+**/.terragrunt-cache
+# Terraform
+**/.terraform
+**/*.tfstate
+**/*.tfstate.backup
+**/*.tfstate.*.backup
+**/*.tfplan
+**/*.tfvars
+**/*.auto.tfvars
+# Terraform locks are useful only in root modules
+configs/**/.terraform.lock.hcl
+# Private keys, KUBECONFIGs and things that should not be available in Git
+**/outputs/**
+**/cache/**
+# I probably don't want these too
+**/*.nope
+**/.DS_Store
+# Taskfile checksum ignores
+.task/checksum/**
+# Setup stuff
+Brewfile.lock.json

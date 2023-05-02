@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+ansible-playbook --connection local --inventory localhost, kube_on_the_cheap.oci_k3s.k3s ${ tpl_k3s_nodes_config_only ? "--skip-tags bootstrap" :  "" }
+
+exit 0

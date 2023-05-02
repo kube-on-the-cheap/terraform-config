@@ -1,0 +1,147 @@
+# https://taskfile.dev
+
+version: "3"
+
+vars:
+  GOOGLE_CLOUD_PROJECT_NAME: Kube on the cheap
+
+tasks:
+  default:
+    cmds:
+      - task -l
+    silent: true
+
+  # --- DigitalOcean ---
+
+  do-login:
+    run: once
+    deps:
+      - task: brew-bundle
+    preconditions:
+      - sh: doctl account get
+        msg: "Open https://cloud.digitalocean.com/account/api/tokens and generate a token to use with 'doctl auth init'."
+
+  # --- Oracle Cloud ---
+  # brew install oci
+
+  # TODO: multi-credential setup!
+  oci-login:
+    run: once
+    deps:
+      - task: brew-bundle
+    preconditions:
+      - sh: oci iam region list --config-file ${HOME}/.oci/config --profile DEFAULT
+        msg: "Please execute 'oci setup bootstrap' and retry."
+
+  # FIXME: Remove when https://github.com/oracle/terraform-provider-oci/issues/1647 will be fixed
+  oci-fix-private-key:
+    vars:
+      OCI_SSH_KEY:
+        sh: awk -F = '/key_file/ { print $2 }' ${HOME}/.oci/config
+      OCI_NEW_SSH_KEY:
+        sh: echo "$(dirname {{ .OCI_SSH_KEY }})/$(basename {{ .OCI_SSH_KEY }} .pem)_rsa.pem"
+      OCI_SSH_PASSPHRASE:
+        sh: awk -F = '/pass_phrase/ { print $2 }' ${HOME}/.oci/config
+    cmds:
+      - openssl rsa -des3
+        -in {{ .OCI_SSH_KEY }} -passin "pass:{{ .OCI_SSH_PASSPHRASE }}"
+        -out {{ .OCI_NEW_SSH_KEY }} -passout "pass:{{ .OCI_SSH_PASSPHRASE }}"
+      - chmod 0600 {{ .OCI_NEW_SSH_KEY }}
+      - sed -i .bak  "s|^key_file=.*$|key_file={{ .OCI_NEW_SSH_KEY }}|g" ~/.oci/config
+    status:
+      - '[ "$(head -n1 {{ .OCI_SSH_KEY }} | grep -c RSA)" -eq "1" ]'
+
+  oci-setup:
+    deps:
+      - task: oci-login
+    cmds:
+      - task: oci-fix-private-key
+
+  # --- Google Cloud ---
+  # brew install google-cloud-sdk
+
+  gcloud-login:
+    run: once
+    deps:
+      - task: brew-bundle
+    preconditions:
+      - sh: '[ "$(gcloud config get-value account 2>/dev/stdout | grep -c unset)" -eq "0" ]'
+        msg: "Please run 'gcloud auth login' and retry."
+
+  gcloud-project:
+    vars:
+      GOOGLE_CLOUD_PROJECT_ID:
+        sh: echo {{ .GOOGLE_CLOUD_PROJECT_NAME }} | tr ' ' '-' | tr '[:upper:]' '[:lower:]'
+    cmds:
+      - gcloud projects create --enable-cloud-apis --name "{{ .GOOGLE_CLOUD_PROJECT_NAME }}" {{ .GOOGLE_CLOUD_PROJECT_ID }}
+    status:
+      - '[ ! -z "$(gcloud projects describe {{ .GOOGLE_CLOUD_PROJECT_ID }} 2>/dev/null)" ]'
+
+  gcloud-default-application-credentials:
+    silent: true
+    cmds:
+      - gcloud auth application-default login
+    status:
+      - gcloud auth application-default print-access-token >/dev/null 2>&1
+
+  gcloud-setup:
+    deps:
+      - task: gcloud-login
+    cmds:
+      - task: gcloud-project
+      - task: gcloud-default-application-credentials
+
+  # --- ASDF packages ---
+
+  asdf-plugin-add:
+    cmds:
+      - cat .tool-versions | cut -d' ' -f1 | grep "^[^\#]" | xargs -I{} asdf plugin add {} || true
+    status:
+      # Don't call the plugin-add if installed plugins are OK
+      - "[[ \"$(comm -23 <(cat .tool-versions | cut -d' ' -f1 | grep '^[^\\#]' | sort) <(asdf plugin list | sort) | wc -l | tr -d ' ')\" -eq 0 ]]"
+
+  asdf-install:
+    deps:
+      - asdf-plugin-add
+    cmds:
+      - asdf install
+    status:
+      - '[ -z "$(asdf install | grep -v "already installed")" ]'
+
+  pre-commit-setup:
+    cmds:
+      - pre-commit install
+    sources:
+      - .git/hooks/pre-commit
+      - .pre-commit-config.yaml
+    generates:
+      - .git/hooks/pre-commit
+    method: checksum
+
+  # --- Main ---
+
+  brew-bundle:
+    run: once
+    preconditions:
+      - sh: command -v brew
+        msg: "Please install brew!"
+    cmds:
+      - brew bundle --no-upgrade --no-lock
+    status:
+      - brew bundle check
+
+  setup-tools:
+    run: once
+    desc: "Setup the required tool dependencies, in an idempotent way"
+    cmds:
+      - task: brew-bundle
+      - task: asdf-install
+      - task: pre-commit-setup
+
+  setup-cloud:
+    run: once
+    desc: "Setup the required dependencies, in an idempotent way"
+    cmds:
+      - task: do-login
+      - task: oci-setup
+      - task: gcloud-setup

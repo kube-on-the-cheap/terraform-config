@@ -1,0 +1,17 @@
+
+Instance pooling and master config
+
+Load Balancer strategy
+- master
+- worker
+
+VCN and regional/local subnetting
+- public ips?
+
+Firewalling
+
+AD and FD placement
+
+Kubernetes platform of choice
+- CNI
+- init strategy

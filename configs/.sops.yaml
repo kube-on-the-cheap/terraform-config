@@ -1,0 +1,3 @@
+creation_rules:
+- path_regex: .*\.sops\.yaml
+- path_regex: .*\.sops
