@@ -1,6 +1,6 @@
 gitleaks 8.16.3
 jq 1.6
-nodejs lts-hydrogen
+nodejs 18.15.0
 pre-commit 3.2.2
 shellcheck 0.8.0
 sops 3.7.3
