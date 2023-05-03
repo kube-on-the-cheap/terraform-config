@@ -1,6 +1,6 @@
 # K3s workers resource distribution
 
-- Status: superseded by [20220904-k3s-workers-resource-distribution-update](20220904-k3s-workers-resource-distribution-update.md)
+- Status: superseded by [20220904-k3s-workers-resource-distribution-update](20220904-k3s-workers-resource-distribution-update-1.md)
 - Date: 2022-09-03
 - Tags: k3s, kubernetes, data plane, workers, bootstrap, init
 

@@ -16,6 +16,7 @@ configs/**/.terraform.lock.hcl
 # I probably don't want these too
 **/*.nope
 **/.DS_Store
+.vscode/*
 # Taskfile checksum ignores
 .task/checksum/**
 # Setup stuff
