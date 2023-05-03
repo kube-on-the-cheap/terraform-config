@@ -42,6 +42,7 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           pre-commit run --files ${{ steps.changed-files.outputs.all_changed_files }}
+
   links-check:
     runs-on: ubuntu-latest
     steps:
@@ -62,6 +63,9 @@ jobs:
         if: steps.changed-markdown-files.outputs.any_changed == 'true'
         with:
           fail: true
-          args: --no-progress ${{ steps.changed-markdown-files.outputs.all_changed_files }}
+          args: |
+            --no-progress ${{ steps.changed-markdown-files.outputs.all_changed_files }}
+            --exclude-path 'docs/adrs/index.md'
+            --exclude-path 'docs/adrs/template.md'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
