@@ -1,3 +1,3 @@
 creation_rules:
-- path_regex: .*\.sops\.yaml
-- path_regex: .*\.sops
+  - path_regex: ^.*\.(sops\.yaml|sops)$
+    pgp: "AF99E31FE58AD5C9EB027EB667E1798C7B7A5D23"

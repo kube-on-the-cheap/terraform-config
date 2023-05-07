@@ -1,0 +1,104 @@
+
+## Install `SOPS`
+
+
+
+## Generate a main PGP Key
+
+<!-- TODO complete this -->
+
+```shell
+$ gpg --batch --generate-key <<EOF
+%no-protection
+Key-Type: default
+Subkey-Type: default
+Name-Real: MyApp Config 1
+Name-Email: myapp-config-1@mydomain.local
+Expire-Date: 0
+EOF
+```
+
+## Generate a subkey for encryption
+
+gpg --list-keys --with-subkey-fingerprint
+
+From here on, I'll assume that the key is available in your GPG Agent or distributed through the OpenPGP keyserver at [https://keys.openpgp.org](https://keys.openpgp.org).
+
+### Usage in GitHub Actions
+
+This also includes any automated/external execution path; you'll need to export the private key with
+
+<!-- TODO verify export -->
+```
+gpg --armor --export-secret-subkeys 67E1798C7B7A5D23
+```
+
+and set it in GitHub Secrets as
+
+* `GPG_PRIVATE_KEY`
+* `GPG_PASSPHRASE`
+
+Then before using it in a workflow, please add a GPG Agent with something like [this GitHub Action](https://github.com/crazy-max/ghaction-import-gpg)
+
+## Create a SOPS secret
+
+Write a `.sops.yaml` that will automatically tell `SOPS` that there and in any subdirectory all created files will use by default `pgp` as key source with a specific fingerptint.
+
+```yaml
+creation_rules:
+- path_regex: ^.*\.(sops\.yaml|sops)$
+  pgp: 'AF99E31FE58AD5C9EB027EB667E1798C7B7A5D23'
+```
+
+Then you can call either `sops --encrypt --in-place existingfile.sops.yaml` if you have an already existing file to change or `sops newfile.sops.yaml` to add one opening the default editor.
+
+From an input of:
+
+```yaml
+test: cane
+```
+
+The generated file will be something as:
+
+```yaml
+test: ENC[AES256_GCM,data:...,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2023-05-07T09:56:21Z"
+    mac: ENC[AES256_GCM,data:...,type:str]
+    pgp:
+        - created_at: "2023-05-07T08:20:08Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+            ...
+            -----END PGP MESSAGE-----
+          fp: AF99E31FE58AD5C9EB027EB667E1798C7B7A5D23
+    unencrypted_suffix: _unencrypted
+    version: 3.7.3
+
+```
+
+## Use with Terragrunt
+
+In Terragrunt you can access the content of the encrypted file with
+
+```hcl
+locals {
+  secrets = yamldecode(sops_decrypt_file("newfile.sops.yaml"))
+}
+
+inputs = merge(
+  local.secrets,
+  {
+    # rest of the input
+  }
+)
+```
+
+## Links
+
+https://poweruser.blog/how-to-encrypt-secrets-in-config-files-1dbb794f7352
