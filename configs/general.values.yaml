@@ -1,3 +1,3 @@
+# Terraform State
 project_name: "kube-on-the-cheap"
 region: europe-west3
-# tfstate_unique_string: 123asdfMyUniqueString

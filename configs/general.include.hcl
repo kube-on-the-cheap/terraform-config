@@ -10,13 +10,14 @@ remote_state {
 }
 
 locals {
-  # We need a globally unique bucket name, and we don't have the neat AWS get_caller_id function available for GCP
-  # so either we get it from the shared values file, or we assume the tuple HOST + USER offers enough entropy (lol)
-  tfstate_unique_string = coalesce(
-    lookup(local.general_values, "tfstate_unique_string", ""),
-    substr(sha256(format("%s-%s", get_env("HOST", "acomputer"), get_env("USER", "someone"))), 0, 6)
-  )
-  general_values = yamldecode(file("general.values.yaml"))
+  general_secrets = sops_decrypt_file("${get_parent_terragrunt_dir()}/general.secrets.sops.yaml")
+  general_values  = yamldecode(file("general.values.yaml"))
+
+  tfstate_unique_string = substr(
+    sha256(
+      lookup(yamldecode(local.general_secrets), "tfstate_unique_string_seed")
+    )
+  , 0, 6)
 }
 
 terraform_version_constraint  = "~> 1.4.0"

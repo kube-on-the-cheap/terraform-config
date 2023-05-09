@@ -1,26 +1,65 @@
+---
+title: Creating a PGP key and using it with SOPS
+author: Marco Bulgarini <marco.bulgarini@gmail.com>
+date: 2023-05-09 07:30:00
+tags:
+- PGP
+- gpg
+- key
+- encryption
+- sops
+- terragrunt
+---
 
 ## Install `SOPS`
 
-
+With your favorite tool of the trade, install `SOPS`. Here we'll be using ASDF, as always.
 
 ## Generate a main PGP Key
 
-<!-- TODO complete this -->
+We'll be creating two resources using gpg's batch mode[ˆ1]:
+
+- a main key that can sign (and certify, added by default); I made that an ECC just for fun, and because some vendors will only accept RSA - but we'll not be needing this
+- a subkey that can perform encryption
+
+Modify the following entry and run it:
 
 ```shell
-$ gpg --batch --generate-key <<EOF
-%no-protection
-Key-Type: default
-Subkey-Type: default
-Name-Real: MyApp Config 1
-Name-Email: myapp-config-1@mydomain.local
-Expire-Date: 0
+❯ gpg --batch --generate-key <<EOF
+Key-Type: EDDSA
+  Key-Curve: ed25519
+  Key-Usage: sign
+Subkey-Type: RSA
+  Subkey-Length: 4096
+  Subkey-Usage: encrypt
+Name-Real: Terragrunt Key
+Name-Comment: SOPS encryption and decryption
+Name-Email: terragrunt-alias+myname@mydomain.local
+Expire-Date: 3y
+Passphrase: CHANGEMEcanew00f123
+%commit
+%echo done
 EOF
 ```
 
-## Generate a subkey for encryption
+You can perform a test run with `--no-default-keyring --keyring sometrustedkeys.gpg`; it will create a new `${HOME}/.gnupg/sometrustedkeys.gpg` that you can dispose of at will.
 
-gpg --list-keys --with-subkey-fingerprint
+> :warning: Please store in a secure place the revocation certificate that is generated during the batch operation! That's very important.
+
+When you're done, show the list of keys and their fingerprints:
+
+```shell
+❯ gpg --list-keys --with-subkey-fingerprint
+/Users/marco/.gnupg/pubring.kbx
+-----------------------------------
+pub   ed25519 2023-05-09 [SC] [expires: 2026-05-08]
+      BCC5C3018A575EC2959DB7D4D2BABFE872723815
+uid           [ultimate] Terragrunt Key (SOPS encryption and decryption) <terragrunt-alias+myname@mydomain.local>
+sub   rsa4096 2023-05-09 [E] [expires: 2026-05-08]
+      81FE1A8CAF7F47125F425D43BDC6755296CACDD4
+```
+
+You'll need to fetch the fingerprint of the encrypt-capable subkey.
 
 From here on, I'll assume that the key is available in your GPG Agent or distributed through the OpenPGP keyserver at [https://keys.openpgp.org](https://keys.openpgp.org).
 
@@ -28,12 +67,11 @@ From here on, I'll assume that the key is available in your GPG Agent or distrib
 
 This also includes any automated/external execution path; you'll need to export the private key with
 
-<!-- TODO verify export -->
-```
-gpg --armor --export-secret-subkeys 67E1798C7B7A5D23
+```shell
+❯ gpg --armor --export-secret-subkeys 81FE1A8CAF7F47125F425D43BDC6755296CACDD4
 ```
 
-and set it in GitHub Secrets as
+and copy/paste it in GitHub Secrets, together with the passphrase. I recommend naming them:
 
 * `GPG_PRIVATE_KEY`
 * `GPG_PASSPHRASE`
@@ -47,7 +85,7 @@ Write a `.sops.yaml` that will automatically tell `SOPS` that there and in any s
 ```yaml
 creation_rules:
 - path_regex: ^.*\.(sops\.yaml|sops)$
-  pgp: 'AF99E31FE58AD5C9EB027EB667E1798C7B7A5D23'
+  pgp: '81FE1A8CAF7F47125F425D43BDC6755296CACDD4'
 ```
 
 Then you can call either `sops --encrypt --in-place existingfile.sops.yaml` if you have an already existing file to change or `sops newfile.sops.yaml` to add one opening the default editor.
@@ -76,7 +114,7 @@ sops:
             -----BEGIN PGP MESSAGE-----
             ...
             -----END PGP MESSAGE-----
-          fp: AF99E31FE58AD5C9EB027EB667E1798C7B7A5D23
+          fp: 81FE1A8CAF7F47125F425D43BDC6755296CACDD4
     unencrypted_suffix: _unencrypted
     version: 3.7.3
 
@@ -99,6 +137,8 @@ inputs = merge(
 )
 ```
 
-## Links
+## Links and footnotes
 
-https://poweruser.blog/how-to-encrypt-secrets-in-config-files-1dbb794f7352
+[How to encrypt secrets in config files with sops](https://poweruser.blog/how-to-encrypt-secrets-in-config-files-1dbb794f7352)
+
+[^1]: [Unattended GPG Key Generation](https://www.gnupg.org/documentation/manuals/gnupg/Unattended-GPG-key-generation.html)

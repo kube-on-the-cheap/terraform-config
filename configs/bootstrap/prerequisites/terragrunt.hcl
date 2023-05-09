@@ -11,14 +11,11 @@ locals {
 }
 
 inputs = {
-  gcp_project_id = local.general_values.project_name
+  # DigitalOcean Setup
+  do_base_domain        = "cloud.blacksd.tech"
+  do_create_acme_domain = "true"
 
-  do_base_domain                    = "blacksd.tech"
-  do_create_acme_domain             = "true"
+  # Google Cloud Setup
+  gcp_project_id                    = local.general_values.project_name
   gcp_notifications_spending_alerts = "marco.bulgarini@gmail.com"
-  gcp_service_list = [
-    "cloudresourcemanager.googleapis.com",
-    "serviceusage.googleapis.com",
-    "billingbudgets.googleapis.com"
-  ]
 }
