@@ -19,8 +19,8 @@ Before running this module you must have
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | 4.37.0 |
-| <a name="provider_google.billing"></a> [google.billing](#provider\_google.billing) | 4.37.0 |
+| <a name="provider_google"></a> [google](#provider\_google) | 4.64.0 |
+| <a name="provider_google.billing"></a> [google.billing](#provider\_google.billing) | 4.64.0 |
 
 ## Resources
 
@@ -40,7 +40,6 @@ Before running this module you must have
 | <a name="input_do_token"></a> [do\_token](#input\_do\_token) | The DO API token | `string` | n/a | yes |
 | <a name="input_gcp_notifications_spending_alerts"></a> [gcp\_notifications\_spending\_alerts](#input\_gcp\_notifications\_spending\_alerts) | An email to notify about spending thresholds | `string` | n/a | yes |
 | <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | The GCP Project ID | `string` | n/a | yes |
-| <a name="input_gcp_service_list"></a> [gcp\_service\_list](#input\_gcp\_service\_list) | The list of APIs necessary for the project | `set(string)` | n/a | yes |
 
 ## Outputs
 

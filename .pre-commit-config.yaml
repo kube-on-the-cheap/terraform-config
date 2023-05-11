@@ -41,18 +41,16 @@ repos:
         args: ["-S", "warning"]
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.77.1
+    rev: v1.79.1
     hooks:
       - id: terraform_providers_lock
-        stages:
-          - pre-push
         args:
           - --tf-init-args=-input=false
-          - --tf-init-args=-backend=false
       - id: terraform_validate
         args:
-          - --tf-init-args=-backend=false
           - --hook-config=--retry-once-with-cleanup=true
+          - --tf-init-args=-input=false
+          - --tf-init-args=-upgrade
       - id: terraform_tfsec
         stages:
           - pre-push
@@ -64,7 +62,7 @@ repos:
           - --hook-config=--path-to-file=README.md
 
   - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v2.1.1
+    rev: v2.2.0
     hooks:
       - id: conventional-pre-commit
         stages:
@@ -72,14 +70,14 @@ repos:
         args: [feat, fix, update, chore, test]
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.16.1
+    rev: v8.16.3
     hooks:
       - id: gitleaks
         stages:
           - pre-push
 
   - repo: https://github.com/python-jsonschema/check-jsonschema.git
-    rev: 0.22.0
+    rev: 0.23.0
     hooks:
       - id: check-github-actions
       - id: check-github-workflows

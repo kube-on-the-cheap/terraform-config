@@ -13,7 +13,7 @@ module "do_domain_oci" {
   cname_record_list = [
     {
       name  = "_acme-challenge"
-      value = format("_acme-challenge.cloud.%s.", var.do_base_domain)
+      value = local.do_domains.acme
     }
   ]
 }
