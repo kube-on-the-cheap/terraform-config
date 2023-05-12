@@ -85,10 +85,12 @@ Write a `.sops.yaml` that will automatically tell `SOPS` that there and in any s
 ```yaml
 creation_rules:
 - path_regex: ^.*\.(sops\.yaml|sops)$
-  pgp: '81FE1A8CAF7F47125F425D43BDC6755296CACDD4'
+  pgp: 81FE1A8CAF7F47125F425D43BDC6755296CACDD4
 ```
 
 Then you can call either `sops --encrypt --in-place existingfile.sops.yaml` if you have an already existing file to change or `sops newfile.sops.yaml` to add one opening the default editor.
+
+> :information_source: Please remember to set the `GPG_TTY` variable, otherwise gpg-agent might fail; `GPG_TTY=$(tty); export GPG_TTY`
 
 From an input of:
 

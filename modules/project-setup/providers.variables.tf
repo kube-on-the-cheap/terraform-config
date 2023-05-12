@@ -4,7 +4,7 @@ variable "do_token" {
   description = "The DO API token"
 }
 
-variable "gcp_project_id" {
+variable "gcp_project_name" {
   type        = string
-  description = "The GCP Project ID"
+  description = "The GCP project name"
 }

@@ -1,3 +1,3 @@
-# Terraform State
-project_name: "kube-on-the-cheap"
-region: europe-west3
+# GCP parameters used also to set Terraform State
+gcp_project_name: "kube-on-the-cheap"
+gcp_region: europe-west3

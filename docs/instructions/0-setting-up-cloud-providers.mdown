@@ -1,0 +1,28 @@
+## Your DNS
+
+Assuming you have a domain named `mydomain.com`, delegate a `cloud.mydomain.com` zone to DigitalOcean; in order to do so, you must
+
+## DigitalOcean
+
+Sign up, and create a new Personal Access Token under [API Tokens](https://cloud.digitalocean.com/account/api/tokens)
+
+![A DigitalOcean PAT generation window](images/0-do-token.png)
+
+then encode it as a YAML file as:
+
+```yaml
+do_token: <YOUR_TOKEN_HERE>
+```
+
+then encrypt it with SOPS in:
+
+```txt
+configs
+└── general.secrets.sops.yaml
+```
+
+## Oracle Cloud
+
+https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs
+
+## Google Cloud Platform

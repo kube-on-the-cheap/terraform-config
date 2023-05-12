@@ -10,6 +10,6 @@ locals {
 resource "google_project_service" "gcp_services" {
   for_each = toset(local.gcp_service_list)
 
-  project = var.gcp_project_id
+  project = var.gcp_project_name
   service = each.key
 }

@@ -39,7 +39,7 @@ Before running this module you must have
 | <a name="input_do_create_acme_domain"></a> [do\_create\_acme\_domain](#input\_do\_create\_acme\_domain) | Enter 'true' to create the ACME delegation domain. | `string` | `"false"` | no |
 | <a name="input_do_token"></a> [do\_token](#input\_do\_token) | The DO API token | `string` | n/a | yes |
 | <a name="input_gcp_notifications_spending_alerts"></a> [gcp\_notifications\_spending\_alerts](#input\_gcp\_notifications\_spending\_alerts) | An email to notify about spending thresholds | `string` | n/a | yes |
-| <a name="input_gcp_project_id"></a> [gcp\_project\_id](#input\_gcp\_project\_id) | The GCP Project ID | `string` | n/a | yes |
+| <a name="input_gcp_project_name"></a> [gcp\_project\_name](#input\_gcp\_project\_name) | The GCP project name | `string` | n/a | yes |
 
 ## Outputs
 
@@ -47,6 +47,4 @@ Before running this module you must have
 |------|-------------|
 | <a name="output_do_domains"></a> [do\_domains](#output\_do\_domains) | A map of scope and name of DO domains |
 | <a name="output_do_ns_records"></a> [do\_ns\_records](#output\_do\_ns\_records) | A map of NS records to set for their respective domains in order to do proper delegation. |
-| <a name="output_oci_config_common"></a> [oci\_config\_common](#output\_oci\_config\_common) | The OCI configuration parameters, without sensitive data |
-| <a name="output_oci_config_sensitive"></a> [oci\_config\_sensitive](#output\_oci\_config\_sensitive) | The OCI configuration parameters, without sensitive data |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -3,22 +3,25 @@ remote_state {
   disable_init = tobool(get_env("TERRAGRUNT_DISABLE_INIT", "false"))
   config = {
     bucket   = format("kube-on-the-cheap-%s", local.tfstate_unique_string)
-    prefix   = format("%s/terraform.tfstate", path_relative_to_include())
-    project  = local.general_values.project_name
-    location = local.general_values.region
+    prefix   = path_relative_to_include()
+    project  = local.general_values.gcp_project_name
+    location = local.general_values.gcp_region
   }
 }
 
 locals {
-  general_secrets = sops_decrypt_file("${get_parent_terragrunt_dir()}/general.secrets.sops.yaml")
-  general_values  = yamldecode(file("general.values.yaml"))
+  general_values  = yamldecode(file("${get_parent_terragrunt_dir()}/general.values.yaml"))
+  general_secrets = yamldecode(sops_decrypt_file("${get_parent_terragrunt_dir()}/general.secrets.sops.yaml"))
 
+  tfstate_secrets = yamldecode(sops_decrypt_file("${get_parent_terragrunt_dir()}/tfstate.secrets.sops.yaml"))
   tfstate_unique_string = substr(
     sha256(
-      lookup(yamldecode(local.general_secrets), "tfstate_unique_string_seed")
+      lookup(local.tfstate_secrets, "tfstate_unique_string_seed")
     )
   , 0, 6)
 }
+
+inputs = merge(local.general_values, local.general_secrets)
 
 terraform_version_constraint  = "~> 1.4.0"
 terragrunt_version_constraint = "~> 0.38.0"

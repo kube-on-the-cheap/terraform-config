@@ -6,31 +6,23 @@ terraform {
     google = {
       source = "hashicorp/google"
     }
-    oci = {
-      source = "oracle/oci"
-    }
-    config = {
-      source = "alabuel/config"
-    }
   }
   backend "gcs" {}
   required_version = "~> 1.4.0"
 }
-
-provider "config" {}
 
 provider "digitalocean" {
   token = var.do_token
 }
 
 provider "google" {
-  project = var.gcp_project_id
+  project = var.gcp_project_name
 }
 
 provider "google" {
   alias = "billing"
 
   # For setting the specific billing usage header
-  billing_project       = var.gcp_project_id
+  billing_project       = var.gcp_project_name
   user_project_override = true
 }
