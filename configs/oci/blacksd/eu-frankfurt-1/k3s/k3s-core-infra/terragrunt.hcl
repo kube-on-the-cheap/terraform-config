@@ -1,26 +1,26 @@
 terraform {
-  source = "../../..//modules/core-infra/"
+  source = "../../../../../..//modules/k3s-core-infra/"
 }
 
 include "general" {
   path = find_in_parent_folders("general.include.hcl")
 }
 
-locals {
-  general_values = yamldecode(file(find_in_parent_folders("general.values.yaml")))
+include "tenancy" {
+  path = find_in_parent_folders("tenancy.include.hcl")
 }
 
-dependency "prerequisites" {
-  config_path = "../..//bootstrap/prerequisites/"
+dependency "project_setup" {
+  config_path = "../../../../..//project-setup/"
 
   mock_outputs_allowed_terraform_commands = ["validate", "init"]
-  mock_outputs                            = file("../..//bootstrap/prerequisites.mock.hcl")
+  mock_outputs                            = file("../../../../..//project-setup/mock_outputs.hcl")
 }
 
 inputs = {
-  oci_tenancy_id           = dependency.prerequisites.outputs.oci_config_common.tenancy
-  oci_region               = dependency.prerequisites.outputs.oci_config_common.region
-  k3s_dns_public_zone_name = dependency.prerequisites.outputs.do_domains.oci
+  oci_tenancy_id           = dependency.project_setup.outputs.oci_config_common.tenancy
+  oci_region               = dependency.project_setup.outputs.oci_config_common.region
+  k3s_dns_public_zone_name = dependency.project_setup.outputs.do_domains.oci
 
   oci_compartments   = yamldecode(file("oci_compartments.values.yaml"))
   k3s_oci_tags       = yamldecode(file("k3s_oci_tags.values.yaml"))

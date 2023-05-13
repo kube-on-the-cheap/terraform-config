@@ -15,3 +15,7 @@ terraform {
 
   backend "gcs" {}
 }
+
+provider "oci" {
+  private_key = var.oci_private_key
+}

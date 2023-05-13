@@ -1,6 +1,33 @@
-## Your DNS
+## Setup Zone Delegation from your DNS
 
-Assuming you have a domain named `mydomain.com`, delegate a `cloud.mydomain.com` zone to DigitalOcean; in order to do so, you must
+Assuming you have a domain named `mydomain.com`, delegate a `cloud.mydomain.com` zone to DigitalOcean; to do so, you must add all authoritative DNS for the receiving provider in the delegating zone.
+
+DigitalOcean has an [extensive list of guides](https://docs.digitalocean.com/tutorials/dns-registrars/) but it only consists in adding three NS records:
+
+```shell
+❯ dig NS cloud.mydomain.com
+
+; <<>> DiG 9.10.6 <<>> NS cloud.mydomain.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 1847
+;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;cloud.mydomain.com. IN NS
+
+;; ANSWER SECTION:
+cloud.mydomain.com. 1800 IN NS ns2.digitalocean.com.
+cloud.mydomain.com. 1800 IN NS ns3.digitalocean.com.
+cloud.mydomain.com. 1800 IN NS ns1.digitalocean.com.
+
+;; Query time: 143 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Sun May 14 00:12:52 CEST 2023
+;; MSG SIZE  rcvd: 139
+```
 
 ## DigitalOcean
 
@@ -23,6 +50,35 @@ configs
 
 ## Oracle Cloud
 
-https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs
+We'll be following the procedure as described in the docs [here](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm#Required_Keys_and_OCIDs).
+
+Head over to the [API keys](https://cloud.oracle.com/identity/domains/my-profile/api-keys) section in your profile. When clicking "Add API key" you'll be given a choice to download a generated private key. Save it somewhere safe and click "Add". Then copy the prompted snippet that is going to be like this:
+
+```ini
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaaqdru8npwme9t3j94u6c8a533nh8tredts6smfoqktz40cvk6tele
+fingerprint=62:42:2f:52:43:86:3d:b0:fa:4f:d6:b5:47:79:9e:8e
+tenancy=ocid1.tenancy.oc1..aaaaaaaavz7gydlgjv8l5twfwq3l7xu2mdsmd53ev30m5xuevmgqwxkz2v8q
+region=eu-frankfurt-1
+key_file=<path to your private keyfile> # TODO
+```
+
+add the `oci_` prefix to easily identify them, and drop the non-sensible key/value pairs in the `tenant.values.yaml`:
+
+```yaml
+oci_region: eu-frankfurt-1
+```
+
+the rest of sensible values will be in `tenant.secrets.sops.yaml`. Include the whole key you saved earlier in the `oci_private_key` key:
+
+```yaml
+oci_user: ocid1.user.oc1..aaaaaaaaqdru8npwme9t3j94u6c8a533nh8tredts6smfoqktz40cvk6tele
+oci_fingerprint: 62:42:2f:52:43:86:3d:b0:fa:4f:d6:b5:47:79:9e:8e
+oci_tenancy: ocid1.tenancy.oc1..aaaaaaaavz7gydlgjv8l5twfwq3l7xu2mdsmd53ev30m5xuevmgqwxkz2v8q
+oci_private_key: |
+  -----BEGIN PRIVATE KEY-----
+  MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDMFM/2EYwL2DGZ
+  ...
+```
 
 ## Google Cloud Platform

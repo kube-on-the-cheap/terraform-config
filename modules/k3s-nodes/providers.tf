@@ -23,3 +23,7 @@ terraform {
 provider "digitalocean" {
   token = var.do_token
 }
+
+provider "oci" {
+  private_key = var.oci_private_key
+}

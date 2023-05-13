@@ -10,10 +10,10 @@ remote_state {
 }
 
 locals {
-  general_values  = yamldecode(file("${get_parent_terragrunt_dir()}/general.values.yaml"))
-  general_secrets = yamldecode(sops_decrypt_file("${get_parent_terragrunt_dir()}/general.secrets.sops.yaml"))
+  general_values  = yamldecode(file(find_in_parent_folders("general.values.yaml")))
+  general_secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("general.secrets.sops.yaml")))
 
-  tfstate_secrets = yamldecode(sops_decrypt_file("${get_parent_terragrunt_dir()}/tfstate.secrets.sops.yaml"))
+  tfstate_secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("tfstate.secrets.sops.yaml")))
   tfstate_unique_string = substr(
     sha256(
       lookup(local.tfstate_secrets, "tfstate_unique_string_seed")

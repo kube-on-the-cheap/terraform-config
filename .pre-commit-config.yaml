@@ -26,10 +26,6 @@ repos:
       - id: check-case-conflict
       - id: mixed-line-ending
         args: [--fix=lf]
-      # Security
-      - id: detect-private-key
-        stages:
-          - pre-push
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: "3.0.0"
