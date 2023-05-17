@@ -4,7 +4,6 @@ variable "k3s_oci_buckets" {
     storage_tier : string
     # Disabled, Enabled, Suspended
     versioning : string
-    read_only : bool
     group_allow_access : optional(string),
     retention : optional(string)
     create_s3_access_key : optional(bool, false)

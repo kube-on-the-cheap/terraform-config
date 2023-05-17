@@ -1,0 +1,8 @@
+---
+k3s_kubeconfig:
+  versioning: Disabled
+  storage_tier: Standard
+k3s_etcd_backup:
+  versioning: Enabled
+  storage_tier: Standard
+  create_s3_access_key: true

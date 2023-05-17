@@ -57,12 +57,12 @@ I broke the loop by setting explicitly the number of AD to fetch; it's a value t
 |------|-------------|------|---------|:--------:|
 | <a name="input_ad_count"></a> [ad\_count](#input\_ad\_count) | The number of Availability Domains in the region | `number` | `1` | no |
 | <a name="input_oci_private_key"></a> [oci\_private\_key](#input\_oci\_private\_key) | The private key to access OCI APIs | `string` | n/a | yes |
-| <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | The OCI tenancy ID | `string` | n/a | yes |
+| <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | The OCI Tenancy ID | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_ads"></a> [ads](#output\_ads) | Tenancy's Availability Domains |
-| <a name="output_fds"></a> [fds](#output\_fds) | Tenancy's Fault Domain, per each Availability Domain |
+| <a name="output_availability_domains"></a> [availability\_domains](#output\_availability\_domains) | Tenancy's Availability Domains |
+| <a name="output_fault_domains"></a> [fault\_domains](#output\_fault\_domains) | Tenancy's Fault Domains, per each Availability Domain |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
