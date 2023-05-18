@@ -43,10 +43,10 @@ Lots and lots to unpack, here. Some references:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_k3s_networking"></a> [k3s\_networking](#module\_k3s\_networking) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking | v1.0.0 |
-| <a name="module_k3s_object_storage"></a> [k3s\_object\_storage](#module\_k3s\_object\_storage) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage | fix/object-storage |
-| <a name="module_k3s_oci_kms"></a> [k3s\_oci\_kms](#module\_k3s\_oci\_kms) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-kms | v1.0.0 |
-| <a name="module_k3s_oci_tags"></a> [k3s\_oci\_tags](#module\_k3s\_oci\_tags) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-tags | v1.0.0 |
+| <a name="module_k3s_networking"></a> [k3s\_networking](#module\_k3s\_networking) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking | feat/network-module |
+| <a name="module_k3s_object_storage"></a> [k3s\_object\_storage](#module\_k3s\_object\_storage) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage | v1.3.0 |
+| <a name="module_k3s_oci_kms"></a> [k3s\_oci\_kms](#module\_k3s\_oci\_kms) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-kms | v1.3.0 |
+| <a name="module_k3s_oci_tags"></a> [k3s\_oci\_tags](#module\_k3s\_oci\_tags) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-tags | v1.3.0 |
 
 ## Resources
 
@@ -54,7 +54,6 @@ Lots and lots to unpack, here. Some references:
 |------|------|
 | [oci_identity_compartment.k3s_compartment](https://registry.terraform.io/providers/oracle/oci/4.87.0/docs/resources/identity_compartment) | resource |
 | [oci_identity_dynamic_group.dynamic_group_all_instances_k3s](https://registry.terraform.io/providers/oracle/oci/4.87.0/docs/resources/identity_dynamic_group) | resource |
-| [oci_identity_availability_domains.k3s_ad](https://registry.terraform.io/providers/oracle/oci/4.87.0/docs/data-sources/identity_availability_domains) | data source |
 
 ## Inputs
 
@@ -64,7 +63,6 @@ Lots and lots to unpack, here. Some references:
 | <a name="input_k3s_oci_buckets"></a> [k3s\_oci\_buckets](#input\_k3s\_oci\_buckets) | The description of buckets to create | <pre>map(object({<br>    # Standard, Archive<br>    storage_tier : string<br>    # Disabled, Enabled, Suspended<br>    versioning : string<br>    group_allow_access : optional(string),<br>    retention : optional(string)<br>    create_s3_access_key : optional(bool, false)<br>  }))</pre> | n/a | yes |
 | <a name="input_k3s_oci_keys"></a> [k3s\_oci\_keys](#input\_k3s\_oci\_keys) | A map of key names and their types to create | `map(string)` | n/a | yes |
 | <a name="input_k3s_oci_tags"></a> [k3s\_oci\_tags](#input\_k3s\_oci\_tags) | A list of tags namespaces and their composition, including the compartment they live in | <pre>list(object(<br>    {<br>      namespace : object({<br>        name : string<br>        description : string<br>      })<br>      tags : map(object({<br>        description : string,<br>        allowed_values : optional(list(string), [])<br>      }))<br>    }<br>  ))</pre> | n/a | yes |
-| <a name="input_k3s_oci_vault_name"></a> [k3s\_oci\_vault\_name](#input\_k3s\_oci\_vault\_name) | The OCI Vault name | `string` | n/a | yes |
 | <a name="input_oci_ads"></a> [oci\_ads](#input\_oci\_ads) | A map of availability domain for this tenancy | `map(string)` | n/a | yes |
 | <a name="input_oci_compartments"></a> [oci\_compartments](#input\_oci\_compartments) | Attributes of the OCI compartment to create | <pre>object(<br>    {<br>      name : string<br>      description : string<br>    }<br>  )</pre> | n/a | yes |
 | <a name="input_oci_private_key"></a> [oci\_private\_key](#input\_oci\_private\_key) | The private key to access OCI APIs | `string` | n/a | yes |
@@ -78,7 +76,6 @@ Lots and lots to unpack, here. Some references:
 | Name | Description |
 |------|-------------|
 | <a name="output_compartments"></a> [compartments](#output\_compartments) | A map of compartments and their IDs. |
-| <a name="output_k3s_ads"></a> [k3s\_ads](#output\_k3s\_ads) | The K3s compartment Availability Domains |
 | <a name="output_oci_etcd_bucket_s3_credentials"></a> [oci\_etcd\_bucket\_s3\_credentials](#output\_oci\_etcd\_bucket\_s3\_credentials) | Credentials to access OCI buckets via S3 Compatibility |
 | <a name="output_oci_kms_master_encryption_keys_ids"></a> [oci\_kms\_master\_encryption\_keys\_ids](#output\_oci\_kms\_master\_encryption\_keys\_ids) | The generated master encryption keys (MEKs) |
 | <a name="output_oci_kms_vault_id"></a> [oci\_kms\_vault\_id](#output\_oci\_kms\_vault\_id) | The generated Vault ID |

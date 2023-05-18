@@ -6,8 +6,3 @@ variable "k3s_oci_keys" {
     error_message = "You must specify at least one key to provision, and the type must be one of \"aes\", \"rsa\" or \"ecdsa\"."
   }
 }
-
-variable "k3s_oci_vault_name" {
-  type        = string
-  description = "The OCI Vault name"
-}

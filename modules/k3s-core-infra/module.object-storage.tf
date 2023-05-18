@@ -1,5 +1,5 @@
 module "k3s_object_storage" {
-  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage?ref=fix/object-storage"
+  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage?ref=v1.3.0"
 
   for_each = var.k3s_oci_buckets
 

@@ -2,7 +2,7 @@ module "k3s_oci_tags" {
   # Call this module once for every namespace to provision
   for_each = { for config in var.k3s_oci_tags : config.namespace.name => config }
 
-  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-tags?ref=v1.0.0"
+  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-tags?ref=v1.3.0"
 
   oci_compartment_id                      = oci_identity_compartment.k3s_compartment.id
   oci_tenancy_id                          = var.tenancy_ocid
