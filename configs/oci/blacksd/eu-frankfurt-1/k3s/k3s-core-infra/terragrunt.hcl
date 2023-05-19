@@ -17,15 +17,21 @@ dependency "project_setup" {
   mock_outputs                            = file("../../../../..//project-setup/mock_outputs.hcl")
 }
 
+dependency "region_setup" {
+  config_path = "../..//region-setup/"
+
+  # TODO: mock
+  # mock_outputs_allowed_terraform_commands = ["validate", "init"]
+  # mock_outputs                            = file("../../../../..//project-setup/mock_outputs.hcl")
+}
+
 inputs = {
-  oci_tenancy_id           = dependency.project_setup.outputs.oci_config_common.tenancy
-  oci_region               = dependency.project_setup.outputs.oci_config_common.region
   k3s_dns_public_zone_name = dependency.project_setup.outputs.do_domains.oci
 
-  oci_compartments   = yamldecode(file("oci_compartments.values.yaml"))
-  k3s_oci_tags       = yamldecode(file("k3s_oci_tags.values.yaml"))
-  k3s_oci_buckets    = yamldecode(file("k3s_oci_buckets.values.yaml"))
-  k3s_oci_vault_name = "K3s"
+  oci_ads          = dependency.region_setup.outputs.availability_domains
+  oci_compartments = try(yamldecode(file("oci_compartments.values.yaml")), {})
+  k3s_oci_tags     = try(yamldecode(file("k3s_oci_tags.values.yaml")), {})
+  k3s_oci_buckets  = try(yamldecode(file("k3s_oci_buckets.values.yaml")), {})
   k3s_oci_keys = {
     "object_storage" = "aes"
     "secrets"        = "aes"

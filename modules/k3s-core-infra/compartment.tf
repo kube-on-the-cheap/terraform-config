@@ -1,3 +1,4 @@
+# Variables
 variable "oci_compartments" {
   type = object(
     {
@@ -8,7 +9,9 @@ variable "oci_compartments" {
   description = "Attributes of the OCI compartment to create"
 }
 
+# Locals
 
+# Resources
 resource "oci_identity_compartment" "k3s_compartment" {
   compartment_id = var.tenancy_ocid
 
@@ -24,10 +27,10 @@ resource "oci_identity_compartment" "k3s_compartment" {
 
 }
 
-output "compartments" {
+# Outputs
+output "oci_compartment" {
   description = "A map of compartments and their IDs."
   value = {
-    "name" : oci_identity_compartment.k3s_compartment.name,
-    "id" : oci_identity_compartment.k3s_compartment.id
+    (oci_identity_compartment.k3s_compartment.name) : oci_identity_compartment.k3s_compartment.id
   }
 }

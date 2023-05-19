@@ -1,3 +1,23 @@
+# Variables
+variable "k3s_oci_tags" {
+  type = list(object(
+    {
+      namespace : object({
+        name : string
+        description : string
+      })
+      tags : map(object({
+        description : string,
+        allowed_values : optional(list(string), [])
+      }))
+    }
+  ))
+  description = "A list of tags namespaces and their composition, including the compartment they live in"
+}
+
+# Locals
+
+# Resources
 module "k3s_oci_tags" {
   # Call this module once for every namespace to provision
   for_each = { for config in var.k3s_oci_tags : config.namespace.name => config }
@@ -10,3 +30,5 @@ module "k3s_oci_tags" {
   tag_namespace                           = each.value.namespace
   tags                                    = each.value.tags
 }
+
+# Outputs

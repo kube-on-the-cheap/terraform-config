@@ -1,3 +1,13 @@
+# Variables
+variable "oci_private_key" {
+  type        = string
+  sensitive   = true
+  description = "The private key to access OCI APIs"
+}
+
+# Locals
+
+# Terraform
 terraform {
   required_providers {
     # Leaving version here since we're creating resources directly in this module
@@ -16,6 +26,9 @@ terraform {
   backend "gcs" {}
 }
 
+# Providers
 provider "oci" {
   private_key = var.oci_private_key
 }
+
+# Output

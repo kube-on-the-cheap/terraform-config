@@ -1,5 +1,22 @@
+# Variables
+variable "k3s_oci_buckets" {
+  type = map(object({
+    # Standard, Archive
+    storage_tier : string
+    # Disabled, Enabled, Suspended
+    versioning : string
+    group_allow_access : optional(string),
+    retention : optional(string)
+    create_s3_access_key : optional(bool, false)
+  }))
+  description = "The description of buckets to create"
+}
+
+# Locals
+
+# Resources
 module "k3s_object_storage" {
-  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage?ref=v1.3.0"
+  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage?ref=feat/network-module"
 
   for_each = var.k3s_oci_buckets
 
@@ -10,6 +27,14 @@ module "k3s_object_storage" {
   bucket_storage_tier         = each.value.storage_tier
   bucket_versioning           = each.value.versioning
   bucket_create_s3_access_key = lookup(each.value, "create_s3_access_key", null)
+  oci_iam_bucket_user_domain  = var.k3s_dns_public_zone_name
 
-  oci_kms_id = module.k3s_oci_kms.master_encryption_keys_ids["object_storage"]
+  oci_kms_id = module.k3s_oci_kms.master_encryption_keys["object_storage"]
+}
+
+# Outputs
+output "oci_etcd_bucket_s3_credentials" {
+  description = "Credentials to access OCI buckets via S3 Compatibility"
+  sensitive   = true
+  value       = lookup(module.k3s_object_storage, "s3_credentials", null)
 }

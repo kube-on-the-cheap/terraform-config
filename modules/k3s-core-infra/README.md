@@ -44,8 +44,8 @@ Lots and lots to unpack, here. Some references:
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_k3s_networking"></a> [k3s\_networking](#module\_k3s\_networking) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking | feat/network-module |
-| <a name="module_k3s_object_storage"></a> [k3s\_object\_storage](#module\_k3s\_object\_storage) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage | v1.3.0 |
-| <a name="module_k3s_oci_kms"></a> [k3s\_oci\_kms](#module\_k3s\_oci\_kms) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-kms | v1.3.0 |
+| <a name="module_k3s_object_storage"></a> [k3s\_object\_storage](#module\_k3s\_object\_storage) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage | feat/network-module |
+| <a name="module_k3s_oci_kms"></a> [k3s\_oci\_kms](#module\_k3s\_oci\_kms) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-kms | feat/network-module |
 | <a name="module_k3s_oci_tags"></a> [k3s\_oci\_tags](#module\_k3s\_oci\_tags) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-tags | v1.3.0 |
 
 ## Resources
@@ -75,10 +75,10 @@ Lots and lots to unpack, here. Some references:
 
 | Name | Description |
 |------|-------------|
-| <a name="output_compartments"></a> [compartments](#output\_compartments) | A map of compartments and their IDs. |
+| <a name="output_oci_compartment"></a> [oci\_compartment](#output\_oci\_compartment) | A map of compartments and their IDs. |
 | <a name="output_oci_etcd_bucket_s3_credentials"></a> [oci\_etcd\_bucket\_s3\_credentials](#output\_oci\_etcd\_bucket\_s3\_credentials) | Credentials to access OCI buckets via S3 Compatibility |
-| <a name="output_oci_kms_master_encryption_keys_ids"></a> [oci\_kms\_master\_encryption\_keys\_ids](#output\_oci\_kms\_master\_encryption\_keys\_ids) | The generated master encryption keys (MEKs) |
-| <a name="output_oci_kms_vault_id"></a> [oci\_kms\_vault\_id](#output\_oci\_kms\_vault\_id) | The generated Vault ID |
+| <a name="output_oci_kms_master_encryption_keys"></a> [oci\_kms\_master\_encryption\_keys](#output\_oci\_kms\_master\_encryption\_keys) | The generated master encryption keys (MEKs) |
+| <a name="output_oci_kms_vault"></a> [oci\_kms\_vault](#output\_oci\_kms\_vault) | The generated Vault ID |
 | <a name="output_oci_vcn_ad_subnets"></a> [oci\_vcn\_ad\_subnets](#output\_oci\_vcn\_ad\_subnets) | A map of K3s VCN AD subnets |
 | <a name="output_oci_vcn_nsgs"></a> [oci\_vcn\_nsgs](#output\_oci\_vcn\_nsgs) | Network Security Groups for K3s |
 | <a name="output_oci_vcn_regional_subnet"></a> [oci\_vcn\_regional\_subnet](#output\_oci\_vcn\_regional\_subnet) | The K3s VCN regional subnet |
