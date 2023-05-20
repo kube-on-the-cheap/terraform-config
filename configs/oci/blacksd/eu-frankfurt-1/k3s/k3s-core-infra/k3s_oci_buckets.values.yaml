@@ -1,8 +1,4 @@
 ---
-k3s_kubeconfig:
-  versioning: Disabled
-  storage_tier: Standard
-  read_only: false
 k3s_etcd_backup:
   versioning: Enabled
   storage_tier: Standard
