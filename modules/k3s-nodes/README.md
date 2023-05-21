@@ -12,7 +12,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_local"></a> [local](#provider\_local) | 2.2.3 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.4.0 |
 | <a name="provider_oci"></a> [oci](#provider\_oci) | 4.87.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
 
@@ -21,8 +21,8 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_do_lb_records"></a> [do\_lb\_records](#module\_do\_lb\_records) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/do-domain | v1.0.0 |
-| <a name="module_k3s_masters"></a> [k3s\_masters](#module\_k3s\_masters) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-compute | v1.1.0 |
-| <a name="module_k3s_workers"></a> [k3s\_workers](#module\_k3s\_workers) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-compute | v1.1.0 |
+| <a name="module_k3s_masters"></a> [k3s\_masters](#module\_k3s\_masters) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-compute | feat/network-module |
+| <a name="module_k3s_workers"></a> [k3s\_workers](#module\_k3s\_workers) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-compute | feat/network-module |
 
 ## Resources
 
@@ -46,15 +46,17 @@
 | <a name="input_do_token"></a> [do\_token](#input\_do\_token) | The DO API token | `string` | n/a | yes |
 | <a name="input_k3s_compartment_id"></a> [k3s\_compartment\_id](#input\_k3s\_compartment\_id) | (optional) describe your variable | `string` | n/a | yes |
 | <a name="input_k3s_nodes_config_only"></a> [k3s\_nodes\_config\_only](#input\_k3s\_nodes\_config\_only) | Run the configuration playbook only, don't perform the bootstrap phase | `bool` | `false` | no |
+| <a name="input_masters_ampere_a1_allocation_schema"></a> [masters\_ampere\_a1\_allocation\_schema](#input\_masters\_ampere\_a1\_allocation\_schema) | The allocation schema of Ampere A1 master instances | `map(number)` | n/a | yes |
 | <a name="input_oci_availability_domains"></a> [oci\_availability\_domains](#input\_oci\_availability\_domains) | (optional) describe your variable | `map(string)` | n/a | yes |
 | <a name="input_oci_etcd_bucket_s3_credentials"></a> [oci\_etcd\_bucket\_s3\_credentials](#input\_oci\_etcd\_bucket\_s3\_credentials) | Credentials to access OCI buckets via S3 Compatibility | `map(string)` | n/a | yes |
 | <a name="input_oci_kms_secrets_master_encryption_key_id"></a> [oci\_kms\_secrets\_master\_encryption\_key\_id](#input\_oci\_kms\_secrets\_master\_encryption\_key\_id) | The MEK ID used to encrypt tokens | `string` | n/a | yes |
 | <a name="input_oci_kms_vault_id"></a> [oci\_kms\_vault\_id](#input\_oci\_kms\_vault\_id) | The Vault ID to store Agent and Token secrets | `string` | n/a | yes |
 | <a name="input_oci_network_security_groups"></a> [oci\_network\_security\_groups](#input\_oci\_network\_security\_groups) | (optional) describe your variable | `map(string)` | n/a | yes |
 | <a name="input_oci_private_key"></a> [oci\_private\_key](#input\_oci\_private\_key) | The private key to access OCI APIs | `string` | n/a | yes |
-| <a name="input_oci_tenancy_id"></a> [oci\_tenancy\_id](#input\_oci\_tenancy\_id) | The OCI Tenancy ID | `string` | n/a | yes |
 | <a name="input_oci_vcn_subnet_id"></a> [oci\_vcn\_subnet\_id](#input\_oci\_vcn\_subnet\_id) | (optional) describe your variable | `string` | n/a | yes |
 | <a name="input_output_path"></a> [output\_path](#input\_output\_path) | (optional) describe your variable | `string` | n/a | yes |
+| <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | The OCI Tenancy ID | `string` | n/a | yes |
+| <a name="input_workers_ampere_a1_allocation_schema"></a> [workers\_ampere\_a1\_allocation\_schema](#input\_workers\_ampere\_a1\_allocation\_schema) | The allocation schema of Ampere A1 worker instances | `map(number)` | n/a | yes |
 
 ## Outputs
 
