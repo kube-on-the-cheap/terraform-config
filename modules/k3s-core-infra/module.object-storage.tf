@@ -33,8 +33,8 @@ module "k3s_object_storage" {
 }
 
 # Outputs
-output "oci_etcd_bucket_s3_credentials" {
+output "oci_buckets_s3_credentials" {
   description = "Credentials to access OCI buckets via S3 Compatibility"
   sensitive   = true
-  value       = lookup(module.k3s_object_storage, "s3_credentials", null)
+  value       = { for bucket, attribs in var.k3s_oci_buckets : bucket => module.k3s_object_storage[bucket].s3_credentials if attribs.create_s3_access_key }
 }

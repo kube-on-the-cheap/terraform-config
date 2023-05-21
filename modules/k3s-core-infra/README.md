@@ -75,8 +75,8 @@ Lots and lots to unpack, here. Some references:
 
 | Name | Description |
 |------|-------------|
+| <a name="output_oci_buckets_s3_credentials"></a> [oci\_buckets\_s3\_credentials](#output\_oci\_buckets\_s3\_credentials) | Credentials to access OCI buckets via S3 Compatibility |
 | <a name="output_oci_compartment"></a> [oci\_compartment](#output\_oci\_compartment) | A map of compartments and their IDs. |
-| <a name="output_oci_etcd_bucket_s3_credentials"></a> [oci\_etcd\_bucket\_s3\_credentials](#output\_oci\_etcd\_bucket\_s3\_credentials) | Credentials to access OCI buckets via S3 Compatibility |
 | <a name="output_oci_kms_master_encryption_keys"></a> [oci\_kms\_master\_encryption\_keys](#output\_oci\_kms\_master\_encryption\_keys) | The generated master encryption keys (MEKs) |
 | <a name="output_oci_kms_vault"></a> [oci\_kms\_vault](#output\_oci\_kms\_vault) | The generated Vault ID |
 | <a name="output_oci_vcn_ad_subnets"></a> [oci\_vcn\_ad\_subnets](#output\_oci\_vcn\_ad\_subnets) | A map of K3s VCN AD subnets |
