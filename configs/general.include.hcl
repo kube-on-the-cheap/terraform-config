@@ -3,21 +3,25 @@ remote_state {
   disable_init = tobool(get_env("TERRAGRUNT_DISABLE_INIT", "false"))
   config = {
     bucket   = format("kube-on-the-cheap-%s", local.tfstate_unique_string)
-    prefix   = format("%s/terraform.tfstate", path_relative_to_include())
-    project  = local.general_values.project_name
-    location = local.general_values.region
+    prefix   = path_relative_to_include()
+    project  = local.general_values.gcp_project_name
+    location = local.general_values.gcp_region
   }
 }
 
 locals {
-  # We need a globally unique bucket name, and we don't have the neat AWS get_caller_id function available for GCP
-  # so either we get it from the shared values file, or we assume the tuple HOST + USER offers enough entropy (lol)
-  tfstate_unique_string = coalesce(
-    lookup(local.general_values, "tfstate_unique_string", ""),
-    substr(sha256(format("%s-%s", get_env("HOST", "acomputer"), get_env("USER", "someone"))), 0, 6)
-  )
-  general_values = yamldecode(file("general.values.yaml"))
+  general_values  = yamldecode(file(find_in_parent_folders("general.values.yaml")))
+  general_secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("general.secrets.sops.yaml")))
+
+  tfstate_secrets = yamldecode(sops_decrypt_file(find_in_parent_folders("tfstate.secrets.sops.yaml")))
+  tfstate_unique_string = substr(
+    sha256(
+      lookup(local.tfstate_secrets, "tfstate_unique_string_seed")
+    )
+  , 0, 6)
 }
+
+inputs = merge(local.general_values, local.general_secrets)
 
 terraform_version_constraint  = "~> 1.4.0"
 terragrunt_version_constraint = "~> 0.38.0"

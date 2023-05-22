@@ -1,0 +1,5 @@
+---
+k3s_velero:
+  versioning: Disabled
+  storage_tier: Standard
+  create_s3_access_key: true
