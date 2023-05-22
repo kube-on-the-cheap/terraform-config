@@ -1,10 +1,10 @@
 module "k3s_masters" {
   source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-compute?ref=feat/network-module"
 
-  cloud_init_config = templatefile(format("%s/cloud-init/masters-init.cfg.tftpl", path.module), {
+  cloud_init_config = templatefile(format("%s/cloud-init/init.cfg.tftpl", path.module), {
     tpl_apiserver_lb_hostname   = local.k3s_api_lb_fqdn
     tpl_k3s_masters_config_path = local.k3s_masters_config_path
-    tpl_etcd_s3_access_key      = var.oci_etcd_bucket_s3_credentials["ACCESS_KEY"]
+    tpl_etcd_s3_access_key      = var.k3s_etcd_bucket_s3_access_key
     tpl_k3s_bucket_etcd_backup  = "k3s_etcd_backup"
   })
   cloud_init_script = templatefile(format("%s/cloud-init/init.sh.tftpl", path.module), {
@@ -22,6 +22,6 @@ module "k3s_masters" {
     "k3s_etcd_backup"
   ]
 
-  ampere_a1_allocation_schema = var.masters_ampere_a1_allocation_schema
+  ampere_a1_allocation_schema = var.ampere_a1_allocation_schema
   # TODO: lifecycle rule with custom validation
 }

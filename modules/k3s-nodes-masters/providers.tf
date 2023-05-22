@@ -9,11 +9,6 @@ terraform {
     digitalocean = {
       source = "digitalocean/digitalocean"
     }
-    # Leaving version here since we're creating resources directly in this module
-    random = {
-      source  = "hashicorp/random"
-      version = "3.4.3"
-    }
   }
   required_version = "~> 1.4.0"
 

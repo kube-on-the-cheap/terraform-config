@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../../../..//modules/k3s-nodes/"
+  source = "../../../../../..//modules/k3s-nodes-masters/"
 }
 
 include "general" {
@@ -42,13 +42,9 @@ inputs = {
   k3s_calico_version          = "1.19.3"
   do_oci_domain               = dependency.project_setup.outputs.do_domains.oci
   k3s_config_bucket_name      = "k3s_kubeconfig"
-  masters_ampere_a1_allocation_schema = {
+  ampere_a1_allocation_schema = {
     "copper" = 1
   }
-  workers_ampere_a1_allocation_schema = {
-    "platinum" = 2
-  }
-  oci_kms_vault_id                         = dependency.k3s_core_infra.outputs.oci_kms_vault["K3s"]
-  oci_kms_secrets_master_encryption_key_id = dependency.k3s_core_infra.outputs.oci_kms_master_encryption_keys["secrets"]
-  oci_etcd_bucket_s3_credentials           = dependency.k3s_core_infra.outputs.oci_buckets_s3_credentials["k3s_etcd_backup"]
+  k3s_defined_tags              = dependency.k3s_core_infra.outputs.k3s_secrets_tags_masters
+  k3s_etcd_bucket_s3_access_key = dependency.k3s_core_infra.outputs.oci_buckets_s3_credentials["k3s_etcd_backup"]["ACCESS_KEY"]
 }
