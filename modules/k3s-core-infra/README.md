@@ -32,12 +32,14 @@ Lots and lots to unpack, here. Some references:
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.4.0 |
 | <a name="requirement_local"></a> [local](#requirement\_local) | 2.2.3 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | 4.87.0 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | 3.4.3 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_oci"></a> [oci](#provider\_oci) | 4.87.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
 
 ## Modules
 
@@ -54,6 +56,9 @@ Lots and lots to unpack, here. Some references:
 |------|------|
 | [oci_identity_compartment.k3s_compartment](https://registry.terraform.io/providers/oracle/oci/4.87.0/docs/resources/identity_compartment) | resource |
 | [oci_identity_dynamic_group.dynamic_group_all_instances_k3s](https://registry.terraform.io/providers/oracle/oci/4.87.0/docs/resources/identity_dynamic_group) | resource |
+| [oci_vault_secret.etcd_s3_secret_key](https://registry.terraform.io/providers/oracle/oci/4.87.0/docs/resources/vault_secret) | resource |
+| [oci_vault_secret.tokens](https://registry.terraform.io/providers/oracle/oci/4.87.0/docs/resources/vault_secret) | resource |
+| [random_password.tokens](https://registry.terraform.io/providers/hashicorp/random/3.4.3/docs/resources/password) | resource |
 
 ## Inputs
 
@@ -75,6 +80,8 @@ Lots and lots to unpack, here. Some references:
 
 | Name | Description |
 |------|-------------|
+| <a name="output_k3s_secrets_tags_masters"></a> [k3s\_secrets\_tags\_masters](#output\_k3s\_secrets\_tags\_masters) | Defined Tags containing secret references to set for Master nodes |
+| <a name="output_k3s_secrets_tags_workers"></a> [k3s\_secrets\_tags\_workers](#output\_k3s\_secrets\_tags\_workers) | Defined Tags containing secret references to set for Worker nodes |
 | <a name="output_oci_buckets_s3_credentials"></a> [oci\_buckets\_s3\_credentials](#output\_oci\_buckets\_s3\_credentials) | Credentials to access OCI buckets via S3 Compatibility |
 | <a name="output_oci_compartment"></a> [oci\_compartment](#output\_oci\_compartment) | A map of compartments and their IDs. |
 | <a name="output_oci_kms_master_encryption_keys"></a> [oci\_kms\_master\_encryption\_keys](#output\_oci\_kms\_master\_encryption\_keys) | The generated master encryption keys (MEKs) |
