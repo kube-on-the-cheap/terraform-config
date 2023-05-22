@@ -18,3 +18,8 @@ variable "oci_ads" {
   type        = map(string)
   description = "A map of availability domain for this tenancy"
 }
+
+variable "k3s_setup_etcd_backup" {
+  type        = bool
+  description = "Create all necessary stuctures to have etcd backup"
+}

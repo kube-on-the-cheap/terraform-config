@@ -32,6 +32,8 @@ resource "oci_vault_secret" "tokens" {
 }
 
 resource "oci_vault_secret" "etcd_s3_secret_key" {
+  count = var.k3s_setup_etcd_backup ? 1 : 0
+
   compartment_id = oci_identity_compartment.k3s_compartment.id
   vault_id       = one(values(module.k3s_oci_kms.vault))
   secret_name    = "etcd-s3-secret-key"
@@ -54,9 +56,7 @@ output "k3s_secrets_tags_masters" {
     {
       for name, secret in oci_vault_secret.tokens : format("K3s-ClusterSecrets.%s", name) => secret.id
     },
-    {
-      "K3s-ClusterSecrets.etcd-s3-secret-key" : oci_vault_secret.etcd_s3_secret_key.id # gitleaks:allow
-    }
+    var.k3s_setup_etcd_backup ? { "K3s-ClusterSecrets.etcd-s3-secret-key" : one(oci_vault_secret.etcd_s3_secret_key.*.id) } : {} # gitleaks:allow
   )
 }
 

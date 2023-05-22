@@ -27,8 +27,8 @@ dependency "region_setup" {
 
 inputs = {
   k3s_dns_public_zone_name = dependency.project_setup.outputs.do_domains.oci
+  oci_ads                  = dependency.region_setup.outputs.availability_domains
 
-  oci_ads          = dependency.region_setup.outputs.availability_domains
   oci_compartments = try(yamldecode(file("oci_compartments.values.yaml")), {})
   k3s_oci_tags     = try(yamldecode(file("k3s_oci_tags.values.yaml")), {})
   k3s_oci_buckets  = try(yamldecode(file("k3s_oci_buckets.values.yaml")), {})
@@ -41,4 +41,5 @@ inputs = {
     "dns_label"    = "k3s"
     "cidr"         = "172.16.0.0/16"
   }
+  k3s_setup_etcd_backup = true
 }
