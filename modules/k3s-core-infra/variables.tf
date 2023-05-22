@@ -22,4 +22,11 @@ variable "oci_ads" {
 variable "k3s_setup_etcd_backup" {
   type        = bool
   description = "Create all necessary stuctures to have etcd backup"
+  default     = false
+}
+
+variable "k3s_setup_secrets" {
+  type        = bool
+  description = "Create K3s secrets"
+  default     = false
 }

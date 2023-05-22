@@ -42,4 +42,5 @@ inputs = {
     "cidr"         = "172.16.0.0/16"
   }
   k3s_setup_etcd_backup = true
+  k3s_setup_secrets     = true
 }

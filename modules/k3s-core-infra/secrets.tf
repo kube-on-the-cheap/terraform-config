@@ -2,7 +2,7 @@
 
 # Locals
 locals {
-  secret_tokens = toset(["agent-token", "token"])
+  secret_tokens = var.k3s_setup_secrets ? toset(["agent-token", "token"]) : toset([])
 }
 
 # Resources
@@ -54,7 +54,7 @@ output "k3s_secrets_tags_masters" {
   description = "Defined Tags containing secret references to set for Master nodes"
   value = merge(
     {
-      for name, secret in oci_vault_secret.tokens : format("K3s-ClusterSecrets.%s", name) => secret.id
+      for name in local.secret_tokens : format("K3s-ClusterSecrets.%s", name) => oci_vault_secret.tokens[name].id
     },
     var.k3s_setup_etcd_backup ? { "K3s-ClusterSecrets.etcd-s3-secret-key" : one(oci_vault_secret.etcd_s3_secret_key.*.id) } : {} # gitleaks:allow
   )
@@ -63,7 +63,7 @@ output "k3s_secrets_tags_masters" {
 # NOTE: in the workers, the "token" config entry is really the "agent-token"
 output "k3s_secrets_tags_workers" {
   description = "Defined Tags containing secret references to set for Worker nodes"
-  value = {
-    "K3s-ClusterSecrets.token" : oci_vault_secret.tokens["agent-token"].id
+  value = { for name in local.secret_tokens :
+    "K3s-ClusterSecrets.token" => oci_vault_secret.tokens[name].id if name == "agent-token"
   }
 }
