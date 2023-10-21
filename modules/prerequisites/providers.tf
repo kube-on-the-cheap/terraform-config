@@ -6,21 +6,19 @@ terraform {
     google = {
       source = "hashicorp/google"
     }
-    oci = {
-      source = "oracle/oci"
-    }
-    config = {
-      source = "alabuel/config"
-    }
+    # config = {
+    #   source = "alabuel/config"
+    # }
   }
   backend "gcs" {}
   required_version = "~> 1.4.0"
 }
 
-provider "config" {}
+# provider "config" {}
 
-provider "digitalocean" {
-  token = var.do_token
+variable "gcp_project_id" {
+  type        = string
+  description = "The GCP Project ID"
 }
 
 provider "google" {

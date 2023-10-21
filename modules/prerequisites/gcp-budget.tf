@@ -1,14 +1,28 @@
-data "google_project" "project" {
+# Variables
+variable "gcp_notifications_spending_alerts" {
+  type        = string
+  description = "An email to notify about spending thresholds"
 }
 
+variable "gcp_billing_account_id" {
+  type        = string
+  sensitive   = true
+  description = "The billing account ID with the payent info"
+}
+
+# Data Sources
+data "google_project" "project" {}
+
+# Resources
 resource "google_billing_budget" "budget" {
   provider = google.billing
 
-  billing_account = data.google_project.project.billing_account
+  billing_account = var.gcp_billing_account_id
   display_name    = "Zero-cost Budget"
 
   budget_filter {
-    projects = ["projects/${data.google_project.project.number}"]
+    calendar_period = "MONTH"
+    projects        = ["projects/${data.google_project.project.number}"]
   }
 
   amount {
@@ -31,8 +45,9 @@ resource "google_billing_budget" "budget" {
     monitoring_notification_channels = [
       google_monitoring_notification_channel.notification_channel.id,
     ]
-    disable_default_iam_recipients = true
+    disable_default_iam_recipients = false
   }
+  depends_on = [google_project_service.gcp_services]
 }
 
 resource "google_monitoring_notification_channel" "notification_channel" {

@@ -10,7 +10,10 @@ locals {
   general_values = yamldecode(file(find_in_parent_folders("general.values.yaml")))
 }
 
-inputs = {
+
+inputs = merge(
+  yamldecode(sops_decrypt_file("secrets.sops.yaml")),
+  {
   gcp_project_id = local.general_values.project_name
 
   do_base_domain                    = "blacksd.tech"
@@ -19,6 +22,8 @@ inputs = {
   gcp_service_list = [
     "cloudresourcemanager.googleapis.com",
     "serviceusage.googleapis.com",
-    "billingbudgets.googleapis.com"
+    "billingbudgets.googleapis.com",
+    "cloudbilling.googleapis.com"
   ]
-}
+  }
+)

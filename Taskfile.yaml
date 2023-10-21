@@ -10,7 +10,7 @@ includes:
     taskfile: tasks/Terragrunt.taskfile.yaml
   dependencies:
     # dir: tasks/
-    taskfile: tasks/Dependencies.taskfile.yaml
+    taskfile: tasks/Dependencies-{{ OS }}.taskfile.yaml
 
 tasks:
   default:

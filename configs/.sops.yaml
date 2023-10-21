@@ -1,3 +1,4 @@
 creation_rules:
-- path_regex: .*\.sops\.yaml
-- path_regex: .*\.sops
+- path_regex: .*\.sops|.*\.sops\.yaml|.*\.sops\.json
+  pgp: >-
+    CBEB44B1E9FD46F3C052496E0C43126B9A9CD273
