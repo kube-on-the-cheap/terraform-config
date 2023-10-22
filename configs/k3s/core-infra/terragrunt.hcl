@@ -18,8 +18,8 @@ dependency "prerequisites" {
 }
 
 inputs = {
-  oci_tenancy_id           = dependency.prerequisites.outputs.oci_config_common.tenancy
-  oci_region               = dependency.prerequisites.outputs.oci_config_common.region
+  # oci_tenancy_id           = dependency.prerequisites.outputs.oci_config_common.tenancy
+  # oci_region               = dependency.prerequisites.outputs.oci_config_common.region
   k3s_dns_public_zone_name = dependency.prerequisites.outputs.do_domains.oci
 
   oci_compartments   = yamldecode(file("oci_compartments.values.yaml"))
