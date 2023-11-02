@@ -1,9 +1,15 @@
-variable "oci_tenancy_id" {
+variable "tenancy_ocid" {
   type        = string
   description = "The OCI Tenancy ID"
 }
 
-variable "oci_region" {
+variable "private_key" {
+  type        = string
+  sensitive   = true
+  description = "The OCI private key"
+}
+
+variable "region" {
   type        = string
   description = "The OCI Region"
 }

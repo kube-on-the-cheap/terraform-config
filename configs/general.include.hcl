@@ -13,7 +13,7 @@ terraform {
       TF_VAR_region =  local.oci_secrets.region
       TF_VAR_tenancy_ocid =  local.oci_secrets.tenancy
       TF_VAR_user_ocid =  local.oci_secrets.user
-      TF_VAR_private_key =  local.oci_secrets.private_key
+      TF_VAR_private_key =  base64decode(local.oci_secrets.private_key)
     }
   }
   extra_arguments "do_credentials" {

@@ -16,7 +16,7 @@ module "oci_compartments" {
 
   source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-compartment?ref=v1.0.0"
 
-  oci_tenancy             = var.oci_tenancy_id
+  oci_tenancy             = var.tenancy_ocid
   compartment_first_level = true
   compartment_description = each.value
   compartment_name        = each.key
