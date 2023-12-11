@@ -17,16 +17,13 @@
       allowed_values:
         - master
         - worker
-    # This is useful if you have multiple masters
-    ClusterInitStatus:
-      description: The status of the cluster-init process
+    # This is useful to flag the progress of the provisioning Ansible script
+    NodeInitStatus:
+      description: The status of the node initialization process
       allowed_values:
-        - initializing
-        - succeeded
-        - failed
-    ClusterJoinStatus:
-      description: The status of the join process
-      allowed_values:
+        - notstarted
+        - starting
+        - joining
         - succeeded
         - failed
 # We don't have a K3s-ClusterConfig because we drop directly the config as a YAML with UserData. That's how we roll.

@@ -1,5 +1,5 @@
 terraform {
-  source = "../../..//modules/k3s/"
+  source = "../../..//modules/k3s-masters/"
 }
 
 include "general" {
@@ -25,34 +25,22 @@ dependency "core_infra" {
 }
 
 inputs = {
-  oci_tenancy_id = dependency.prerequisites.outputs.oci_config_common.tenancy
-  oci_region     = dependency.prerequisites.outputs.oci_config_common.region
-  # k3s_dns_public_zone_name = dependency.prerequisites.outputs.do_domains.oci
-
-
   oci_vcn_subnet_id           = dependency.core_infra.outputs.oci_vcn_regional_subnet["eu-frankfurt-1"].id
   oci_network_security_groups = dependency.core_infra.outputs.oci_vcn_nsgs
   oci_availability_domains    = dependency.core_infra.outputs.k3s_ads
-  # load_balancers              = module.networking.load_balancers
   k3s_compartment_id     = dependency.core_infra.outputs.compartments.k3s
   output_path            = get_terragrunt_dir()
-  k3s_version            = "1.28.2"
-  k3s_calico_version     = "1.19.3"
+  # TODO: use these
+  # k3s_version            = "1.28.3"
+  # k3s_calico_version     = "3.26.4"
   do_oci_domain          = dependency.prerequisites.outputs.do_domains.oci
-  k3s_config_bucket_name = "k3s_kubeconfig"
+  # TODO: reference top map input from dependency core-infra
+  k3s_buckets = {
+    "etcd_backup" = "k3s_etcd_backup"
+    "kubeconfig"  = "k3s_kubeconfig"
+  }
   ampere_a1_allocation_schema = {
-    "copper" = [
-      {
-        "role"  = "master"
-        "count" = 1
-      }
-    ]
-    "platinum" = [
-      {
-        "role"  = "worker"
-        "count" = 2
-      }
-    ]
+    "copper" = 1
   }
   oci_kms_vault_id                         = dependency.core_infra.outputs.oci_kms_vault_id
   oci_kms_secrets_master_encryption_key_id = dependency.core_infra.outputs.oci_kms_master_encryption_keys_ids["secrets"]

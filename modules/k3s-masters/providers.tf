@@ -1,3 +1,4 @@
+# Terraform Config
 terraform {
   required_providers {
     oci = {
@@ -20,6 +21,24 @@ terraform {
   backend "gcs" {}
 }
 
-provider "digitalocean" {
-  token = var.do_token
+# Variables
+variable "private_key" {
+  type        = string
+  sensitive   = true
+  description = "The OCI private key"
+}
+
+variable "tenancy_ocid" {
+  type        = string
+  description = "The OCI Tenancy ID"
+}
+
+variable "region" {
+  type        = string
+  description = "The OCI Region"
+}
+
+# Providers
+provider "oci" {
+  private_key = var.private_key
 }

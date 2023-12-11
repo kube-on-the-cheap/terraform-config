@@ -1,3 +1,8 @@
+variable "do_oci_domain" {
+  type        = string
+  description = "The DO domain used for OCI operations"
+}
+
 module "do_lb_records" {
   source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/do-domain?ref=v1.0.0"
 
