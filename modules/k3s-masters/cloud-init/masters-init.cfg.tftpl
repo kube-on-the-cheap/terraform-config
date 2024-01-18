@@ -36,6 +36,11 @@ write_files:
     content: |-
       k3s_bucket_kubeconfig: ${tpl_k3s_bucket_kubeconfig}
       apiserver_lb_hostname: ${tpl_apiserver_lb_hostname}
-
+      k3s_version: ${tpl_k3s_version}
+      cilium_version: ${tpl_cilium_version}
+      nlb_regional_subnets:
+      %{ for subnet in tpl_nlb_regional_subnets ~}
+      - ${subnet}
+      %{ endfor ~}
   # NOTE: common config is provisioned with Ansible
   # TODO: selectively perform a cluster-init with reset from S3

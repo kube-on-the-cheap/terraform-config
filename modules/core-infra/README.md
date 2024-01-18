@@ -43,7 +43,7 @@ Lots and lots to unpack, here. Some references:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_k3s_networking"></a> [k3s\_networking](#module\_k3s\_networking) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking | v1.0.0 |
+| <a name="module_k3s_networking"></a> [k3s\_networking](#module\_k3s\_networking) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking | v1.4.0 |
 | <a name="module_k3s_object_storage"></a> [k3s\_object\_storage](#module\_k3s\_object\_storage) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage | v1.0.0 |
 | <a name="module_k3s_oci_kms"></a> [k3s\_oci\_kms](#module\_k3s\_oci\_kms) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-kms | v1.0.0 |
 | <a name="module_k3s_oci_tags"></a> [k3s\_oci\_tags](#module\_k3s\_oci\_tags) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-tags | v1.0.0 |
@@ -84,4 +84,5 @@ Lots and lots to unpack, here. Some references:
 | <a name="output_oci_vcn_ad_subnets"></a> [oci\_vcn\_ad\_subnets](#output\_oci\_vcn\_ad\_subnets) | A map of K3s VCN AD subnets |
 | <a name="output_oci_vcn_nsgs"></a> [oci\_vcn\_nsgs](#output\_oci\_vcn\_nsgs) | Network Security Groups for K3s |
 | <a name="output_oci_vcn_regional_subnet"></a> [oci\_vcn\_regional\_subnet](#output\_oci\_vcn\_regional\_subnet) | The K3s VCN regional subnet |
+| <a name="output_oci_vcn_regional_subnets_lb"></a> [oci\_vcn\_regional\_subnets\_lb](#output\_oci\_vcn\_regional\_subnets\_lb) | The K3s VCN regional subnets dedicated to the NLB instance |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

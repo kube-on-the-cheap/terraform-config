@@ -15,7 +15,7 @@ variable "k3s_dns_public_zone_name" {
 
 # Resources
 module "k3s_networking" {
-  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking?ref=v1.0.0"
+  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking?ref=v1.4.0"
 
   oci_compartment_id            = module.oci_compartments[local.k3s_compartment_name].id
   oci_region                    = var.region
@@ -31,6 +31,11 @@ module "k3s_networking" {
 output "oci_vcn_regional_subnet" {
   value       = module.k3s_networking.vcn_regional_subnet
   description = "The K3s VCN regional subnet"
+}
+
+output "oci_vcn_regional_subnets_lb" {
+  value       = module.k3s_networking.vcn_regional_subnets_lbs
+  description = "The K3s VCN regional subnets dedicated to the NLB instance"
 }
 
 output "oci_vcn_ad_subnets" {

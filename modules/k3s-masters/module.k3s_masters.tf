@@ -1,6 +1,23 @@
 # Variables
-variable "oci_vcn_subnet_id" {
+variable "oci_vcn_regional_subnet_compute_name" {
   type        = string
+  description = "(optional) describe your variable"
+}
+
+variable "oci_vcn_regional_subnets_lb_ids" {
+  type        = list(string)
+  description = "(optional) describe your variable"
+  validation {
+    condition     = length(var.oci_vcn_regional_subnets_lb_ids) == 2
+    error_message = "Please specify 2 regional subnets for LB HA."
+  }
+}
+
+variable "component_versions" {
+  type = object({
+    k3s    = string
+    cilium = string
+  })
   description = "(optional) describe your variable"
 }
 
@@ -58,9 +75,9 @@ variable "ampere_a1_allocation_schema" {
 
 # Locals
 locals {
-  k3s_masters_config_path = "/etc/rancher/k3s/config.yaml.d/master.terraform.yaml"
-  ansible_vars_path       = "/root/ansible-vars.yaml"
-  k3s_api_lb_fqdn         = format("kube.%s", var.do_oci_domain)
+  k3s_config_path   = "/etc/rancher/k3s/config.yaml.d"
+  ansible_vars_path = "/root/ansible-vars.yaml"
+  k3s_api_lb_fqdn   = format("kube.%s", var.do_oci_domain)
 }
 
 # Resources
@@ -69,13 +86,16 @@ module "k3s_masters" {
 
   cloud_init_config = templatefile(format("%s/cloud-init/masters-init.cfg.tftpl", path.module), {
     # INFO: Files to create
-    tpl_k3s_masters_config_path = local.k3s_masters_config_path
+    tpl_k3s_masters_config_path = format("%s/master.terraform.yaml", local.k3s_config_path)
     tpl_ansible_vars_path       = local.ansible_vars_path
     # INFO: Parameters for those files files to create
     tpl_apiserver_lb_hostname  = local.k3s_api_lb_fqdn
     tpl_etcd_s3_access_key     = var.oci_etcd_bucket_s3_credentials["ACCESS_KEY"]
     tpl_k3s_bucket_etcd_backup = var.k3s_buckets["etcd_backup"]
     tpl_k3s_bucket_kubeconfig  = var.k3s_buckets["kubeconfig"]
+    tpl_nlb_regional_subnets   = var.oci_vcn_regional_subnets_lb_ids
+    tpl_k3s_version            = var.component_versions["k3s"]
+    tpl_cilium_version         = var.component_versions["cilium"]
   })
   cloud_init_script = templatefile(format("%s/cloud-init/init.sh.tftpl", path.module), {
     tpl_k3s_nodes_config_only = var.k3s_nodes_config_only
@@ -83,7 +103,7 @@ module "k3s_masters" {
   })
   oci_compartment_id          = var.k3s_compartment_id
   oci_tenancy_id              = var.tenancy_ocid
-  oci_vcn_subnet_id           = var.oci_vcn_subnet_id
+  oci_vcn_subnet_id           = var.oci_vcn_regional_subnet_compute_name
   oci_network_security_groups = var.oci_network_security_groups
   oci_availability_domains    = var.oci_availability_domains
 

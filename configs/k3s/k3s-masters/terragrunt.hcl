@@ -25,14 +25,16 @@ dependency "core_infra" {
 }
 
 inputs = {
-  oci_vcn_subnet_id           = dependency.core_infra.outputs.oci_vcn_regional_subnet["eu-frankfurt-1"].id
+  oci_vcn_regional_subnet_compute_name          = one(keys(dependency.core_infra.outputs.oci_vcn_regional_subnet["eu-frankfurt-1"]))
+  oci_vcn_regional_subnets_lb_ids = values(dependency.core_infra.outputs.oci_vcn_regional_subnets_lb["eu-frankfurt-1"])
   oci_network_security_groups = dependency.core_infra.outputs.oci_vcn_nsgs
   oci_availability_domains    = dependency.core_infra.outputs.k3s_ads
   k3s_compartment_id     = dependency.core_infra.outputs.compartments.k3s
   output_path            = get_terragrunt_dir()
-  # TODO: use these
-  # k3s_version            = "1.28.3"
-  # k3s_calico_version     = "3.26.4"
+  component_versions            = {
+    "k3s": "v1.28.5+k3s1"
+    "cilium":  "1.13.10"
+  }
   do_oci_domain          = dependency.prerequisites.outputs.do_domains.oci
   # TODO: reference top map input from dependency core-infra
   k3s_buckets = {

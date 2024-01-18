@@ -39,6 +39,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_ampere_a1_allocation_schema"></a> [ampere\_a1\_allocation\_schema](#input\_ampere\_a1\_allocation\_schema) | The resource allocation schema for flexible Ampere A1 instances | `map(number)` | n/a | yes |
+| <a name="input_component_versions"></a> [component\_versions](#input\_component\_versions) | (optional) describe your variable | <pre>object({<br>    k3s    = string<br>    cilium = string<br>  })</pre> | n/a | yes |
 | <a name="input_do_oci_domain"></a> [do\_oci\_domain](#input\_do\_oci\_domain) | The DO domain used for OCI operations | `string` | n/a | yes |
 | <a name="input_k3s_buckets"></a> [k3s\_buckets](#input\_k3s\_buckets) | A map of role an name of buckets to use | `map(string)` | n/a | yes |
 | <a name="input_k3s_compartment_id"></a> [k3s\_compartment\_id](#input\_k3s\_compartment\_id) | (optional) describe your variable | `string` | n/a | yes |
@@ -48,7 +49,8 @@
 | <a name="input_oci_kms_secrets_master_encryption_key_id"></a> [oci\_kms\_secrets\_master\_encryption\_key\_id](#input\_oci\_kms\_secrets\_master\_encryption\_key\_id) | The MEK ID used to encrypt tokens | `string` | n/a | yes |
 | <a name="input_oci_kms_vault_id"></a> [oci\_kms\_vault\_id](#input\_oci\_kms\_vault\_id) | The Vault ID to store Agent and Token secrets | `string` | n/a | yes |
 | <a name="input_oci_network_security_groups"></a> [oci\_network\_security\_groups](#input\_oci\_network\_security\_groups) | (optional) describe your variable | `map(string)` | n/a | yes |
-| <a name="input_oci_vcn_subnet_id"></a> [oci\_vcn\_subnet\_id](#input\_oci\_vcn\_subnet\_id) | (optional) describe your variable | `string` | n/a | yes |
+| <a name="input_oci_vcn_regional_subnet_compute_name"></a> [oci\_vcn\_regional\_subnet\_compute\_name](#input\_oci\_vcn\_regional\_subnet\_compute\_name) | (optional) describe your variable | `string` | n/a | yes |
+| <a name="input_oci_vcn_regional_subnets_lb_ids"></a> [oci\_vcn\_regional\_subnets\_lb\_ids](#input\_oci\_vcn\_regional\_subnets\_lb\_ids) | (optional) describe your variable | `list(string)` | n/a | yes |
 | <a name="input_output_path"></a> [output\_path](#input\_output\_path) | (optional) describe your variable | `string` | n/a | yes |
 | <a name="input_private_key"></a> [private\_key](#input\_private\_key) | The OCI private key | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | The OCI Region | `string` | n/a | yes |
