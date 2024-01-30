@@ -82,7 +82,7 @@ locals {
 
 # Resources
 module "k3s_masters" {
-  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-masters?ref=feat/split-k3s"
+  source = "git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-masters?ref=feat/k3s-iam"
 
   cloud_init_config = templatefile(format("%s/cloud-init/masters-init.cfg.tftpl", path.module), {
     # INFO: Files to create

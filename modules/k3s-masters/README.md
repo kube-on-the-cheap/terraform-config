@@ -12,8 +12,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_local"></a> [local](#provider\_local) | 2.4.0 |
-| <a name="provider_oci"></a> [oci](#provider\_oci) | 4.87.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.4.1 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 5.22.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.4.3 |
 
 ## Modules
@@ -21,7 +21,7 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_do_lb_records"></a> [do\_lb\_records](#module\_do\_lb\_records) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/do-domain | v1.0.0 |
-| <a name="module_k3s_masters"></a> [k3s\_masters](#module\_k3s\_masters) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-masters | feat/split-k3s |
+| <a name="module_k3s_masters"></a> [k3s\_masters](#module\_k3s\_masters) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-k3s-masters | feat/k3s-iam |
 
 ## Resources
 
