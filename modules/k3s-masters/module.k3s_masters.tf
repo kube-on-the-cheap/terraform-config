@@ -1,5 +1,5 @@
 # Variables
-variable "oci_vcn_regional_subnet_compute_name" {
+variable "oci_vcn_regional_subnet_compute_id" {
   type        = string
   description = "(optional) describe your variable"
 }
@@ -103,7 +103,7 @@ module "k3s_masters" {
   })
   oci_compartment_id          = var.k3s_compartment_id
   oci_tenancy_id              = var.tenancy_ocid
-  oci_vcn_subnet_id           = var.oci_vcn_regional_subnet_compute_name
+  oci_vcn_subnet_id           = var.oci_vcn_regional_subnet_compute_id
   oci_network_security_groups = var.oci_network_security_groups
   oci_availability_domains    = var.oci_availability_domains
 

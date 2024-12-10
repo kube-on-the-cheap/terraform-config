@@ -1,5 +1,5 @@
 terraform {
-  source = "../../..//modules/k3s-masters/"
+  source = "../../../..//modules/k3s-masters/"
 }
 
 include "general" {
@@ -25,7 +25,7 @@ dependency "core_infra" {
 }
 
 inputs = {
-  oci_vcn_regional_subnet_compute_name          = one(keys(dependency.core_infra.outputs.oci_vcn_regional_subnet["eu-frankfurt-1"]))
+  oci_vcn_regional_subnet_compute_id          = one(values(dependency.core_infra.outputs.oci_vcn_regional_subnet["eu-frankfurt-1"]))
   oci_vcn_regional_subnets_lb_ids = values(dependency.core_infra.outputs.oci_vcn_regional_subnets_lb["eu-frankfurt-1"])
   oci_network_security_groups = dependency.core_infra.outputs.oci_vcn_nsgs
   oci_availability_domains    = dependency.core_infra.outputs.k3s_ads

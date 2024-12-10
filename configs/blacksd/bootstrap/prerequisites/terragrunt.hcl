@@ -1,5 +1,5 @@
 terraform {
-  source = "../../..//modules/prerequisites/"
+  source = "../../../..//modules/prerequisites/"
 }
 
 include "general" {

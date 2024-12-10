@@ -49,7 +49,7 @@
 | <a name="input_oci_kms_secrets_master_encryption_key_id"></a> [oci\_kms\_secrets\_master\_encryption\_key\_id](#input\_oci\_kms\_secrets\_master\_encryption\_key\_id) | The MEK ID used to encrypt tokens | `string` | n/a | yes |
 | <a name="input_oci_kms_vault_id"></a> [oci\_kms\_vault\_id](#input\_oci\_kms\_vault\_id) | The Vault ID to store Agent and Token secrets | `string` | n/a | yes |
 | <a name="input_oci_network_security_groups"></a> [oci\_network\_security\_groups](#input\_oci\_network\_security\_groups) | (optional) describe your variable | `map(string)` | n/a | yes |
-| <a name="input_oci_vcn_regional_subnet_compute_name"></a> [oci\_vcn\_regional\_subnet\_compute\_name](#input\_oci\_vcn\_regional\_subnet\_compute\_name) | (optional) describe your variable | `string` | n/a | yes |
+| <a name="input_oci_vcn_regional_subnet_compute_id"></a> [oci\_vcn\_regional\_subnet\_compute\_id](#input\_oci\_vcn\_regional\_subnet\_compute\_id) | (optional) describe your variable | `string` | n/a | yes |
 | <a name="input_oci_vcn_regional_subnets_lb_ids"></a> [oci\_vcn\_regional\_subnets\_lb\_ids](#input\_oci\_vcn\_regional\_subnets\_lb\_ids) | (optional) describe your variable | `list(string)` | n/a | yes |
 | <a name="input_output_path"></a> [output\_path](#input\_output\_path) | (optional) describe your variable | `string` | n/a | yes |
 | <a name="input_private_key"></a> [private\_key](#input\_private\_key) | The OCI private key | `string` | n/a | yes |
