@@ -43,7 +43,7 @@ Lots and lots to unpack, here. Some references:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_k3s_networking"></a> [k3s\_networking](#module\_k3s\_networking) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking | v1.0.0 |
+| <a name="module_k3s_networking"></a> [k3s\_networking](#module\_k3s\_networking) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-networking | v1.4.0 |
 | <a name="module_k3s_object_storage"></a> [k3s\_object\_storage](#module\_k3s\_object\_storage) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-object-storage | v1.0.0 |
 | <a name="module_k3s_oci_kms"></a> [k3s\_oci\_kms](#module\_k3s\_oci\_kms) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-kms | v1.0.0 |
 | <a name="module_k3s_oci_tags"></a> [k3s\_oci\_tags](#module\_k3s\_oci\_tags) | git::https://github.com/kube-on-the-cheap/terraform-modules.git//modules/oci-tags | v1.0.0 |
@@ -66,10 +66,11 @@ Lots and lots to unpack, here. Some references:
 | <a name="input_k3s_oci_tags"></a> [k3s\_oci\_tags](#input\_k3s\_oci\_tags) | A list of tags namespaces and their composition, including the compartment they live in | <pre>list(object(<br>    {<br>      namespace : object({<br>        name : string<br>        description : string<br>      })<br>      tags : map(object({<br>        description : string,<br>        allowed_values : optional(list(string), [])<br>      }))<br>    }<br>  ))</pre> | n/a | yes |
 | <a name="input_k3s_oci_vault_name"></a> [k3s\_oci\_vault\_name](#input\_k3s\_oci\_vault\_name) | The OCI Vault name | `string` | n/a | yes |
 | <a name="input_oci_compartments"></a> [oci\_compartments](#input\_oci\_compartments) | A list of OCI compartments to create | <pre>list(object(<br>    {<br>      name : string<br>      description : string<br>    }<br>  ))</pre> | n/a | yes |
-| <a name="input_oci_region"></a> [oci\_region](#input\_oci\_region) | The OCI Region | `string` | n/a | yes |
-| <a name="input_oci_tenancy_id"></a> [oci\_tenancy\_id](#input\_oci\_tenancy\_id) | The OCI Tenancy ID | `string` | n/a | yes |
 | <a name="input_oci_vcn_attributes"></a> [oci\_vcn\_attributes](#input\_oci\_vcn\_attributes) | An object describing attributes required to provision the VCN | <pre>object({<br>    display_name : string<br>    dns_label : string<br>    cidr : string<br>  })</pre> | n/a | yes |
+| <a name="input_private_key"></a> [private\_key](#input\_private\_key) | The OCI private key | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | The OCI Region | `string` | n/a | yes |
 | <a name="input_shared_freeform_tags"></a> [shared\_freeform\_tags](#input\_shared\_freeform\_tags) | A map of shared freeform tags | `map(string)` | `{}` | no |
+| <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | The OCI Tenancy ID | `string` | n/a | yes |
 
 ## Outputs
 
@@ -83,4 +84,5 @@ Lots and lots to unpack, here. Some references:
 | <a name="output_oci_vcn_ad_subnets"></a> [oci\_vcn\_ad\_subnets](#output\_oci\_vcn\_ad\_subnets) | A map of K3s VCN AD subnets |
 | <a name="output_oci_vcn_nsgs"></a> [oci\_vcn\_nsgs](#output\_oci\_vcn\_nsgs) | Network Security Groups for K3s |
 | <a name="output_oci_vcn_regional_subnet"></a> [oci\_vcn\_regional\_subnet](#output\_oci\_vcn\_regional\_subnet) | The K3s VCN regional subnet |
+| <a name="output_oci_vcn_regional_subnets_lb"></a> [oci\_vcn\_regional\_subnets\_lb](#output\_oci\_vcn\_regional\_subnets\_lb) | The K3s VCN regional subnets dedicated to the NLB instance |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -1,0 +1,46 @@
+#cloud-config
+
+packages:
+  - git
+  - python3-pip
+
+ansible:
+  install_method: pip
+  package_name: ansible
+  galaxy:
+    actions:
+      - [
+          "ansible-galaxy",
+          "collection",
+          "install",
+          "git+https://github.com/kube-on-the-cheap/ansible-collection-oci-k3s.git",
+        ]
+
+write_files:
+  - path: "/etc/environment"
+    append: true
+    encoding: "text/plain"
+    content: |-
+      OCI_CLI_AUTH=instance_principal
+  - path: "${tpl_k3s_masters_config_path}"
+    permissions: "0600"
+    encoding: "text/plain"
+    content: |-
+      tls-san:
+      - "${tpl_apiserver_lb_hostname}"
+      etcd-s3-bucket: "${tpl_k3s_bucket_etcd_backup}"
+      etcd-s3-access-key: "${tpl_etcd_s3_access_key}"
+  - path: "${tpl_ansible_vars_path}"
+    permissions: "0600"
+    encoding: "text/plain"
+    content: |-
+      k3s_bucket_kubeconfig: ${tpl_k3s_bucket_kubeconfig}
+      apiserver_lb_hostname: ${tpl_apiserver_lb_hostname}
+      k3s_version: ${tpl_k3s_version}
+      cilium_version: ${tpl_cilium_version}
+      nlb_regional_subnets:
+      %{ for subnet in tpl_nlb_regional_subnets ~}
+      - ${subnet}
+      %{ endfor ~}
+  # NOTE: common config is provisioned with Ansible
+  # TODO: selectively perform a cluster-init with reset from S3
